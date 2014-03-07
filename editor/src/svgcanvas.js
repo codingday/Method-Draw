@@ -172,7 +172,7 @@ var clearSvgContentElement = canvas.clearSvgContentElement = function() {
 	}).appendTo(svgroot);
 
 	// TODO: make this string optional and set by the client
-	var comment = svgdoc.createComment(" Created with Method Draw - http://github.com/duopixel/Method-Draw/ ");
+	var comment = svgdoc.createComment("Created with Vector Code http://www.vectorcodeapp.com");
 	svgcontent.appendChild(comment);
 };
 clearSvgContentElement();
@@ -2212,8 +2212,13 @@ var addToSelection = this.addToSelection = function(elemsToAdd, showGrips) {
 		}
 	}
 	call("selected", selectedElements);
-	if (showGrips || selectedElements.length == 1) selectorManager.requestSelector(selectedElements[0]).showGrips(true)
-  else selectorManager.requestSelector(selectedElements[0]).showGrips(false);
+	if (selectedElements[0] != null) {
+    	if (showGrips || selectedElements.length == 1) {
+      		selectorManager.requestSelector(selectedElements[0]).showGrips(true)
+ 	    } else {
+   			selectorManager.requestSelector(selectedElements[0]).showGrips(false);
+     }
+   }
 
 	// make sure the elements are in the correct order
 	// See: http://www.w3.org/TR/DOM-Level-3-Core/core.html#Node3-compareDocumentPosition
@@ -2227,7 +2232,7 @@ var addToSelection = this.addToSelection = function(elemsToAdd, showGrips) {
 	});
 	
 	// Make sure first elements are not null
-	while(selectedElements[0] == null) selectedElements.shift(0);
+	while(selectedElements[0] == null && selectedElements.length) selectedElements.shift(0);
 };
 
 // Function: selectOnly()
@@ -2420,7 +2425,7 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
 			mouse_target = selectedElements[0];
 		}
 		
-		start_transform = mouse_target.getAttribute("transform");
+		start_transform = $(mouse_target).attr("transform");
 		var tlist = getTransformList(mouse_target);
 		switch (current_mode) {
 			case "select":
@@ -5972,6 +5977,7 @@ var convertToGroup = this.convertToGroup = function(elem) {
 // Returns:
 // This function returns false if the set was unsuccessful, true otherwise.
 this.setSvgString = function(xmlString) {
+	canvas.clearSelection();
 	try {
 		// convert string into XML document
 		var newDoc = svgedit.utilities.text2xml(xmlString);
@@ -6729,12 +6735,12 @@ var getResolution = this.getResolution = function() {
 // 		var vb = svgcontent.getAttribute("viewBox").split(' ');
 // 		return {'w':vb[2], 'h':vb[3], 'zoom': current_zoom};
 	
-	var width = svgcontent.getAttribute("width")/current_zoom;
-	var height = svgcontent.getAttribute("height")/current_zoom;
+	var width = parseInt(svgcontent.getAttribute("width"));
+ 	var height = parseInt(svgcontent.getAttribute("height"));
 	
 	return {
-		'w': width,
-		'h': height,
+		'w': width/current_zoom,
+ 	    'h': height/current_zoom,
 		'zoom': current_zoom
 	};
 };
@@ -8510,6 +8516,7 @@ var pushGroupProperties = this.pushGroupProperties = function(g, undoable) {
 // significant recalculations to apply group's transforms, etc to its children
 this.ungroupSelectedElement = function() {
 	var g = selectedElements[0];
+	if (typeof g == 'undefined') return;
 	if($(g).data('gsvg') || $(g).data('symbol')) {
 		// Is svg, so actually convert to group
 

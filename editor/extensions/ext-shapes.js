@@ -31,7 +31,8 @@ methodDraw.addExtension("shapes", function() {
 		music: 'Music',
 		weather: 'Weather &amp; Time',
 		ui: 'User Interface',
-		social: 'Social Web'
+		social: 'Social Web',
+
 	};
 	
 	var library = {
@@ -174,7 +175,8 @@ methodDraw.addExtension("shapes", function() {
 				
    			var copy = btn.children().clone().attr({width: 24, height: 24});
    			shower.children(':not(.flyout_arrow_horiz)').remove();
-   			shower
+
+   			shower				
    				.append(copy)
    				.attr('data-curopt', '#' + btn[0].id) // This sets the current mode
    				.mouseup();
@@ -218,9 +220,12 @@ methodDraw.addExtension("shapes", function() {
 			$('#tool_shapelib').remove();
 			
 			var h = $('#tools_shapelib').height();
+			var w1 = $('#tools_shapelib').width();
+			var w2 = $(document).width();
+			//alert(w2-w1)
 			$('#tools_shapelib').css({
-				'margin-top': -(h/2),
-				'margin-left': 3
+				'margin-top': -(h-90),
+				'margin-left':(w2-w1) - 300
 			});
 
 	

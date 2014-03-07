@@ -6,14 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
 <link rel="icon" type="image/png" href="images/logo.png"/>
 
-<!--{if svg_edit_release}>
+<!--
   <link rel="stylesheet" href="css/method-draw.compiled.css" type="text/css"/>
-<!{else}-->
+-->
+    
   <link rel="stylesheet" href="lib/jgraduate/css/jPicker.css" type="text/css"/>
   <link rel="stylesheet" href="lib/jgraduate/css/jgraduate.css" type="text/css"/>
+
   <link rel="stylesheet" href="css/method-draw.css" type="text/css"/>
   <link rel="stylesheet" href="css/fonts.css" type="text/css"/>
-<!--{endif}-->
+
   <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
 
@@ -21,9 +23,9 @@
   <script type="text/javascript" src="lib/jquery.js"></script>
 
 
-<!--{if svg_edit_release}>
-  <script type="text/javascript" src="method-draw.compiled.js"></script>
-<!{else}-->
+
+
+
   <script type="text/javascript" src="lib/touch.js"></script>
   <script type="text/javascript" src="lib/js-hotkeys/jquery.hotkeys.min.js"></script>
   <script type="text/javascript" src="lib/jquerybbq/jquery.bbq.min.js"></script>
@@ -53,8 +55,6 @@
   <script type="text/javascript" src="extensions/ext-grid.js"></script>
   <script type="text/javascript" src="lib/requestanimationframe.js"></script>
   <script type="text/javascript" src="lib/taphold.js"></script>
-<!--{endif}-->
-
 
 <title>Method Draw</title>
 </head>
@@ -107,14 +107,16 @@
   <div class="menu">
     <div class="menu_title">Edit</div>
   	<div class="menu_list" id="edit_menu">
-  		<div class="menu_item" id="tool_undo">Undo <span class="shortcut">⌘Z</span></div>
-  		<div class="menu_item" id="tool_redo">Redo <span class="shortcut">⌘Y</span></div>
+  		<div class="menu_item" id="tool_undo2">Undo <span class="shortcut">⌘Z</span></div>
+  		<div class="menu_item" id="tool_redo2">Redo <span class="shortcut">⌘Y</span></div>
   		<div class="separator"></div>
   		<div class="menu_item action_selected disabled" id="tool_cut">Cut <span class="shortcut">⌘X</span></div>
   		<div class="menu_item action_selected disabled" id="tool_copy">Copy <span class="shortcut">⌘C</span></div>
 			<div class="menu_item action_selected disabled" id="tool_paste">Paste <span class="shortcut">⌘V</span></div>
-  		<div class="menu_item action_selected disabled" id="tool_clone">Duplicate <span class="shortcut">⌘D</span></div>
-			<div class="menu_item action_selected disabled" id="tool_delete">Delete <span>⌫</span></div>
+  		<div class="menu_item action_selected disabled" id="tool_clone2">Duplicate <span class="shortcut">⌘D</span></div>
+			<div class="menu_item action_selected disabled" id="tool_delete2">Delete <span>⌫</span></div>
+
+
     </div>
   </div>
   
@@ -151,6 +153,14 @@
 
 <div id="tools_top" class="tools_panel">
 
+  <label id="tool_delete2" data-title="Edit">	    
+  <div class="menu_item" id="tool_undo">Undo <span class="shortcut">⌘Z</span></div>
+  		<div class="menu_item" id="tool_redo">Redo <span class="shortcut">⌘Y</span></div>
+  			
+
+		</label>
+
+
 	<div id="canvas_panel" class="context_panel">
 	  
 	  <h4 class="clearfix">Canvas</h4>
@@ -181,11 +191,12 @@
 	    <span>Sizes</span>
   		<select id="resolution">
   			<option id="selectedPredefined" selected="selected">Custom</option>
-  			<option>640x480</option>
-  			<option>800x600</option>
-  			<option>1024x768</option>
-  			<option>1280x960</option>
-  			<option>1600x1200</option>
+  			<option>320x480xiPhone</option> <!---iphone -->
+  			<option>640x1136xiPhone 5</option><!---iphone 5 -->
+  			<option>1024x768xiPad</option><!---ipad -->
+
+
+
   			<option id="fitToContent" value="content">Fit to Content</option>
   		</select>
   		<div class="caret"></div>
@@ -196,6 +207,9 @@
 	
 	<div id="rect_panel" class="context_panel">
 	  <h4 class="clearfix">Rectangle</h4>
+
+	 
+
 	  <label>
 			<input id="rect_x" class="attr_changer" data-title="Change X coordinate" size="3" data-attr="x" pattern="[0-9]*" />
 			<span>X</span> 
@@ -212,6 +226,14 @@
 			<input id="rect_height" class="attr_changer" size="3" data-attr="height" type="text" pattern="[0-9]*" />
 			<span class="icon_label">Height</span>
 		</label>
+
+
+
+		<!--		  <div class="tool_button" id="tool_delete" title="Delete Element  (del/backspace)">
+  
+  </div>-->
+ 
+
 	</div>
 	
 	<div id="path_panel" class="context_panel clearfix">
@@ -416,7 +438,7 @@
   		  <span id="group_opacityLabel" class="icon_label">Opacity</span>
   		</label>
 		
-		<div class="toolset" id="tool_blur" data-title="Change gaussian blur value">
+		<div class="toolset" id="tool_blur" data-title="Change gaussian blur value"  style="display:none">
 			<label>
 				<input id="blur" size="2" value="0" step=".1"  min="0" max="10" />
 			  <span class="icon_label">Blur</span>
@@ -480,7 +502,7 @@
   		  <span class="icon_label">Stroke Width</span>
   		</label>
   	</div>
-  	<div class="stroke_tool draginput"> 
+  	<div class="stroke_tool draginput" > <!-- style="display:none" --> 
   	  <span>Stroke Dash</span>
   		<select id="stroke_style" data-title="Change stroke dash style">
   			<option selected="selected" value="none">—</option>
@@ -518,27 +540,28 @@
 	<div class="tool_button" id="tool_text" title="Text Tool [T]"></div>
 	<div class="tool_button" id="tool_zoom" title="Zoom Tool [Z]"></div>
 	
-  <div id="color_tools">
-        <div id="tool_switch" title="Switch stroke and fill colors [X]"></div>
-  			<div class="color_tool active" id="tool_fill">
-  				<label class="icon_label" title="Change fill color"></label>
-				  <div class="color_block">
-					  <div id="fill_bg"></div>
-					  <div id="fill_color" class="color_block"></div>
-				  </div>
-  			</div>
-
-  			<div class="color_tool" id="tool_stroke">
-  					<label class="icon_label" title="Change stroke color"></label>
-  				<div class="color_block">
-  					<div id="stroke_bg"></div>
-  					<div id="stroke_color" class="color_block" title="Change stroke color"></div>
-  				</div>
-  			</div>
-	</div>
+ 
 </div> <!-- tools_left -->
 
 <div id="tools_bottom" class="tools_panel">
+    <div id="color_tools">
+          <div id="tool_switch" title="Switch stroke and fill colors [X]"></div>
+    			<div class="color_tool active" id="tool_fill">
+    				<label class="icon_label" title="Change fill color"></label>
+  				  <div class="color_block">
+  					  <div id="fill_bg"></div>
+  					  <div id="fill_color" class="color_block"></div>
+  				  </div>
+    			</div>
+
+    			<div class="color_tool" id="tool_stroke">
+    					<label class="icon_label" title="Change stroke color"></label>
+    				<div class="color_block">
+    					<div id="stroke_bg"></div>
+    					<div id="stroke_color" class="color_block" title="Change stroke color"></div>
+    				</div>
+    			</div>
+  	</div>
 
     <!-- Zoom buttons -->
 	<div id="zoom_panel" class="toolset" title="Change zoom level">
@@ -618,13 +641,19 @@
 	<li><a href="#copy">Copy<span class="shortcut">⌘C</span></a></li>
 	<li><a href="#paste">Paste<span class="shortcut">⌘V</span></a></li>
 	<li class="separator"><a href="#delete">Delete<span class="shortcut">⌫</span></a></li>
+
 	<li class="separator"><a href="#group">Group<span class="shortcut">⌘G</span></a></li>
 	<li><a href="#ungroup">Ungroup<span class="shortcut">⌘⇧G</span></a></li>
   <li class="separator"><a href="#move_front">Bring to Front<span class="shortcut">⌘⇧↑</span></a></li>
 	<li><a href="#move_up">Bring Forward<span class="shortcut">⌘↑</span></a></li>
 	<li><a href="#move_down">Send Backward<span class="shortcut">⌘↓</span></a></li>
   <li><a href="#move_back">Send to Back<span class="shortcut">⌘⇧↓</span></a></li>
+
+  <li class="separator">
+  			<li><a href="#tool_topath">Convert to Path</a></li>
+			<li><a href="#tool_reorient">Reorient path</a></li>
 </ul>
 
 </body>
 </html>
+
