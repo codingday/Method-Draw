@@ -1,36 +1,4 @@
 ﻿/*
-function embedded_svg_edit(frame){
-  //initialize communication
-  this.frame = frame;
-  this.stack = []; //callback stack
-  
-  var editapi = this;
-  
-  window.addEventListener("message", function(e){
-    if(e.data.substr(0,5) == "ERROR"){
-      editapi.stack.splice(0,1)[0](e.data,"error")
-    }else{
-      editapi.stack.splice(0,1)[0](e.data)
-    }
-  }, false)
-}
-
-embedded_svg_edit.prototype.call = function(code, callback){
-  this.stack.push(callback);
-  this.frame.contentWindow.postMessage(code,"*");
-}
-
-embedded_svg_edit.prototype.getSvgString = function(callback){
-  this.call("svgCanvas.getSvgString()",callback)
-}
-
-embedded_svg_edit.prototype.setSvgString = function(svg){
-  this.call("svgCanvas.setSvgString('"+svg.replace(/'/g, "\\'")+"')");
-}
-*/
-
-
-/*
 Embedded SVG-edit API
 
 General usage:

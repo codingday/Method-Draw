@@ -35,7 +35,7 @@
 			initOpacity: 1,
 			imgPath: 'images/',
 			extPath: 'extensions/',
-			jGraduatePath: 'jgraduate/images/',
+			jGraduatePath: 'lib/jgraduate/images/',
 			extensions: [],
 			initTool: 'select',
 			wireframe: false,
@@ -677,26 +677,26 @@
 				if (typeof animatedZoom != 'undefined') window.cancelAnimationFrame(animatedZoom)
 				// zoom duration 500ms
 				var start = Date.now();
-				var duration = 500;
+				var duration = 100;
 				var diff = (zoomlevel) - (res.zoom)
 				var zoom = $('#zoom')[0]
 				var current_zoom = res.zoom
-				var animateZoom = function(timestamp) {
-				  var progress = Date.now() - start
-				  var tick = progress / duration
-          tick = (Math.pow((tick-1), 3) +1);
-          svgCanvas.setZoom(current_zoom + (diff*tick));
+			//	var animateZoom = function(timestamp) {
+				//  var progress = Date.now() - start
+				  //var tick = progress / duration
+          //tick = (Math.pow((tick-1), 3) +1);
+          svgCanvas.setZoom(zoomlevel );//+ (diff*tick));
 				  updateCanvas();
-				  if (tick < 1 && tick > -.90) {
-            window.animatedZoom = requestAnimationFrame(animateZoom)
-				  }
-				  else {
+				//  if (tick < 1 && tick > -.90) {
+            //window.animatedZoom = requestAnimationFrame(animateZoom)
+			//	  }
+			//	  else {
 				    $("#zoom").val(parseInt(zoomlevel*100))
 				    $("option", "#zoom_select").removeAttr("selected")
 				    $("option[value="+ parseInt(zoomlevel*100) +"]", "#zoom_select").attr("selected", "selected")
-				  }
-				}
-				animateZoom()
+			//	  }
+			//	}
+			//	animateZoom()
 				
  			  
 				
@@ -829,6 +829,18 @@
 					var pos = $(show_sel).position();
 					$(hold_sel).css({'left': pos.left+34, 'top': pos.top+77});
 					
+					
+					//move to top menu
+					
+
+					
+					var label =  '<h4 class="clearfix">Shapes</h4>';
+					
+					
+					$('#tools_top').prepend(shower);
+					$('#tools_top').prepend(label);
+					
+
 					// Clicking the "show" icon should set the current mode
 					shower.mousedown(function(evt) {
 					  $('#workarea').one("mousedown", function(){$('#tools_shapelib').hide()})
@@ -837,8 +849,8 @@
 						var holder = $(hold_sel);
 						var l = pos.left+34;
 						var w = holder.width()*-1;
-						var time = holder.data('shown_popop')?200:0;
-						timer = setTimeout(function() {
+						//var time = holder.data('shown_popop')?200:0;
+						//timer = setTimeout(function() {
 							// Show corresponding menu
 							if(!shower.data('isLibrary')) {
 								holder.css('left', w).show().animate({
@@ -848,10 +860,10 @@
 								holder.css('left', l).show();
 							}
 							holder.data('shown_popop',true);
-						},time);
+					//	},time);
 						evt.preventDefault();
 					}).mouseup(function(evt) {
-						clearTimeout(timer);
+					//	clearTimeout(timer);
 						var opt = $(this).attr('data-curopt');
 						// Is library and popped up, so do nothing
 						if(shower.data('isLibrary') && $(show_sel.replace('_show','')).is(':visible')) {
@@ -1554,9 +1566,13 @@
 							
 							//update the draginput cursors
 						  var name_item = document.getElementById(el_name + '_' + item);
-							name_item.value = Math.round(attrVal) || 0;
-							if (name_item.getAttribute("data-cursor") === "true") {
-      				  $.fn.dragInput.updateCursor(name_item );
+						 if (name_item) {
+ 			                name_item.value = Math.round(attrVal) || 0;
+            			     if (name_item.getAttribute("data-cursor") === "true") {
+                   				$.fn.dragInput.updateCursor(name_item );
+               }
+
+
       				}
 						});
 						
@@ -1649,7 +1665,12 @@
 			palette.forEach(function(item, i){
 				str += '<div class="palette_item" style="background-color: ' + item + ';" data-rgb="' + item + '"></div>';
 			});
+
+		  
 			$('#palette').append(str);
+			
+//			$("#color_tools").prependTo($('#tools_bottom_3'));
+			
 			
 			var changeFontSize = function(ctl) {
 				svgCanvas.setFontSize(ctl.value);
@@ -1657,6 +1678,14 @@
 			
 			var changeStrokeWidth = function(ctl) {
 				var val = ctl.value;
+
+
+				// Very stupid filter for non-numbers, fixes issues with "px" line widths
+		         // TODO: if "px" widths and sizes aren't supported, they should just be
+		         // filtered out/converted on import/open
+		         if (isNaN(val)) {
+		           val = ctl.value = 1;
+		         }
 				if(val == 0 && selectedElement && ['line', 'polyline'].indexOf(selectedElement.nodeName) >= 0) {
 					val = ctl.value = 1;
 				}
@@ -1777,6 +1806,7 @@
 						paint = new $.jGraduate.Paint();
 					}
 					else {
+//						alert ( color.substr(1))
 						paint = new $.jGraduate.Paint({alpha: 100, solidColor: color.substr(1)});
 					}
 					
@@ -2283,7 +2313,9 @@
 		
 			var moveSelected = function(dx,dy) {
 				if (selectedElement != null || multiselected) {
+
 					if(curConfig.gridSnapping) {
+
 						// Use grid snap value regardless of zoom level
 						var multi = svgCanvas.getZoom() * curConfig.snappingStep;
 						dx *= multi;
@@ -2528,6 +2560,8 @@
 				}
 				$('#rulers').toggle(!!curConfig.showRulers)
 			}
+
+			Editor.showRulers = clickRulers;
 			
 			var updateWireFrame = function() {
 				// Test support
@@ -2581,7 +2615,17 @@
 				}
 				setSelectMode();		
 			};
-			
+			var savePreferences = function() {
+				
+				//$('#rulers').toggle(curConfig.showRulers);
+				//if(curConfig.showRulers) updateRulers();
+				curConfig.baseUnit = $('#base_unit').val();
+
+				svgCanvas.setConfig(curConfig);
+
+				updateCanvas();
+
+			}
 			function setBackground(color, url) {
 // 				if(color == curPrefs.bkgd_color && url == curPrefs.bkgd_url) return;
 				$.pref('bkgd_color', color);
@@ -3158,7 +3202,7 @@
 				return false;
 			} 
 			height.parent().removeClass('error');
-			if(!svgCanvas.setResolution(w, h)) {
+			if(!svgCanvas.setResolution(w, h)) { 
 				$.alert(uiStrings.notification.noContentToFitTo);
 				var dims = svgCanvas.getResolution()
 				width.val(dims.w)
@@ -3193,30 +3237,14 @@
 					var dims = this.value.split('x');
 					dims[0] = parseInt(dims[0]); 
 					dims[1] = parseInt(dims[1]);
-					var diff_w = dims[0] - w.value;
-					var diff_h = dims[1] - h.value;
-					//animate
-					var start = Date.now();
-					var duration = 1000;
-					var animateCanvasSize = function(timestamp) {
-					  var progress = timestamp - start
-					  var tick = progress / duration
-            tick = (Math.pow((tick-1), 3) +1);
-					  w.value = (dims[0] - diff_w + (tick*diff_w)).toFixed(0);
-					  h.value = (dims[1] - diff_h + (tick*diff_h)).toFixed(0);
-					  changeCanvasSize();
-					  if (tick >= 1) {
-					    var res = svgCanvas.getResolution()
-					    $('#canvas_width').val(res.w.toFixed())
-					    $('#canvas_height').val(res.h.toFixed())
-					    $('#resolution_label').html("<div class='pull'>" + res.w + "<span>×</span></br>" + res.h + "</div>");
-					  }
-					  else {
-					    requestAnimationFrame(animateCanvasSize)
-					  }
-					}
-					animateCanvasSize(Date.now())
+					//iphone
 
+				
+					  w.value = dims[0];
+					  h.value = dims[1];
+					  changeCanvasSize();
+
+				
 				}
 			});
 			
@@ -3229,6 +3257,7 @@
 			
 			// Associate all button actions as well as non-button keyboard shortcuts
 			var Actions = function() {
+			//Menu Actions menu_actions
 				// sel:'selector', fn:function, evt:'event', key:[key, preventDefault, NoDisableInInput]
 				var tool_buttons = [
 					{sel:'#tool_select', fn: clickSelect, evt: 'click', key: ['V', true]},
@@ -3247,7 +3276,7 @@
 					{sel:'#tool_export', fn: clickExport, evt: 'mouseup'},
 					{sel:'#tool_open', fn: clickOpen, evt: 'mouseup'},
 					{sel:'#tool_import', fn: clickImport, evt: 'mouseup'},
-					{sel:'#tool_source', fn: showSourceEditor, evt: 'click', key: [modKey + 'U', true]},
+					{sel:'#tool_source', fn: showSourceEditor, evt: 'click'},
 					{sel:'#tool_wireframe', fn: clickWireframe, evt: 'click'},
 					{sel:'#tool_snap', fn: clickSnapGrid, evt: 'click'},
 					{sel:'#tool_rulers', fn: clickRulers, evt: 'click'},
@@ -3530,6 +3559,9 @@
 							break;
 						case 'cut':
 							cutSelected();
+							break;
+						case 'clone' :
+
 							break;
 						case 'copy':
 							copySelected();

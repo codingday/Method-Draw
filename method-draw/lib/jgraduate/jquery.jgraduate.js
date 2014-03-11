@@ -203,8 +203,8 @@ jQuery.fn.jGraduate =
             $this.addClass('jGraduate_Picker');
             $this.html('<ul class="jGraduate_tabs">' +
             				'<li class="jGraduate_tab_color jGraduate_tab_current" data-type="col">Solid Color</li>' +
-            				'<li class="jGraduate_tab_lingrad" data-type="lg">Linear Gradient</li>' +
-            				'<li class="jGraduate_tab_radgrad" data-type="rg">Radial Gradient</li>' +
+            			//	'<li class="jGraduate_tab_lingrad" data-type="lg">Linear Gradient</li>' +
+            			//	'<li class="jGraduate_tab_radgrad" data-type="rg">Radial Gradient</li>' +
             			'</ul>' +
             			'<div class="jGraduate_colPick"></div>' +
             			'<div class="jGraduate_gradPick"></div>' +

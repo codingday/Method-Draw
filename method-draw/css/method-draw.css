@@ -1,7 +1,8 @@
 /* Comment to prevent wrong concat */
 
 body {
-	background: #3f3f3c;
+	/*background: #3f3f3c;*/
+background-color: #2f2f2c;
 	font: 13px/120% 'Lucida Sans', 'Lucida Grande', 'Lucida Sans Unicode', sans-serif;
 	-webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -11,6 +12,8 @@ body {
   user-select: none;
 	margin: 0;
 	padding: 0;
+	top :0;
+	left:0;
 }
 
 ::selection {background: #000; color: #fff; /* Safari */}
@@ -189,13 +192,13 @@ html, body {
  #svgcanvas {
 	line-height: normal;
 	display: inline-block;
-	background-color: #A0A0A0;
+	background-color: #2f2f2c;
 	text-align: center;
 	vertical-align: middle;
 	width: 640px;
 	height: 480px;
 	position: relative;
-	background: #3F3F3C;
+	background: #2f2f2c;
 }
 
 #rulers > div {
@@ -207,7 +210,7 @@ html, body {
 }
 
 #rulers #ruler_corner {
-	top: 30px;
+	/*top: 30px;*/
 	left: 50px;
 	width: 15px;
 	height: 15px;
@@ -217,7 +220,7 @@ html, body {
 
 #ruler_x {
 	height: 15px;
-	top: 30px;
+	/*top: 30px;*/
 	left: 66px;
 	right: 175px;
 	border-top: solid #444 1px;
@@ -246,7 +249,7 @@ html, body {
 #ruler_y {
 	width: 15px;
 	top: 46px;
-	left: 50px;
+	/*left: 50px;*/
 	bottom: 40px;
 	border-left: solid #444 1px;
 	border-bottom: solid #444 1px;
@@ -278,11 +281,11 @@ html, body {
 	display: block;
 	position: absolute;
 	z-index: 2;
-	left: 10px;
+	left: 60px;
 	bottom: 5px;
-	width: 410px;
-	right: 145px;
-	height: 30px;
+	width:60%;
+	right: 105px;
+	height: 40px;
 }
 
  .palette_item {
@@ -301,6 +304,7 @@ html, body {
   top: 0;
 }
 
+
 .palette_item.transparent {
 	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAVdEVYdENyZWF0aW9uIFRpbWUAOC8yMi8xMg1cp6sAAABESURBVBiVjdBBCgAgCETRr/e/87SJKFPLnfIcQRMIwMBIShIAvgZzoSrfkzrs8WyF1+kX9r3p8AE7nL7kSpSshN+JEQ8GixkF0mSevgAAAABJRU5ErkJggg==);
 }
@@ -315,11 +319,33 @@ html, body {
   top: 20px;
 }
 
+
+#zoom_label {
+	height: 20px;
+	background: transparent;
+	cursor: default !important;
+	width: auto;
+	padding: 0 10px;
+	margin: 0;
+}
+
+#zoom_panel {
+	padding: 9px 0;
+	right: 10px;
+  position: absolute;
+  top:10px;
+}
+
+#zoom_label img, #zoom_label svg {
+	width: 16px;
+	height: 16px;
+}
+
  #color_tools {
   position: relative;
   width: 48px;
   height: 48px;
-  margin: 6px 6px 0 6px;
+  margin: 2px 0px 0px 0px;
 }
 
 .touch  #color_tools {
@@ -542,7 +568,8 @@ html, body {
 	left: 50px;
 	bottom: 40px;
 	right: 175px;
-	background-color: #444;
+	/*background-color: #444;*/
+	background-color: #2f2f2c;
 	overflow: auto;
 	text-align: center;
 	-webkit-transition: -webkit-transform 500ms cubic-bezier(0.13,0.66,0.24,0.92);
@@ -617,7 +644,7 @@ html, body {
 	right: 0;
 	top: 20px;
 	border-bottom: none;
-	overflow: visible;
+overflow:auto;
 	padding: 0 0 0 15px;
 }
 
@@ -1038,23 +1065,27 @@ box-shadow: inset 0 3px 10px rgba(255, 255, 255, 0.1),
  #tools_bottom {
 	position: absolute;
 	left: 50px;
-	right: 0;
-	bottom: 0;
-	height: 40px;
-	overflow: visible;
+	right: 0px;
+	bottom: 0px;
+	height: 50px;
+	width : 75%;
+	overflow: auto;
 	background: #2f2f2c;
 }
 
  #tools_bottom_1 {
 	width: 115px;
 	float: left;
+
 }
 
  #tools_bottom_2 {
 	position: relative;
 	float: left;
 	margin-top: 5px;
+
 }
+
 
 #tools_bottom input[type=text] {
 	width: 3.2em;
@@ -1949,25 +1980,6 @@ box-shadow: inset 0 3px 10px rgba(255, 255, 255, 0.1),
 	position: absolute;
 }
 
-#zoom_label {
-	height: 20px;
-	background: transparent;
-	cursor: default !important;
-	width: auto;
-	padding: 0 10px;
-	margin: 0;
-}
-
-#zoom_panel {
-	padding: 9px 0;
-	right: 175px;
-  position: absolute;
-}
-
-#zoom_label img, #zoom_label svg {
-	width: 16px;
-	height: 16px;
-}
 
 #logo svg {
 	pointer-events: none;
